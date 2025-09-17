@@ -156,6 +156,43 @@ contract Web3ChatRegistry is Ownable, ReentrancyGuard {
      * @param _firstName First name to check
      */
     function isFirstNameAvailable(string memory _firstName) external view returns (bool) {
-        return !nameTaken[_firstName];
+        // Extract first name to ensure consistency with registration process
+        string memory firstName = ensContract.extractFirstName(_firstName);
+        
+        // Validate extracted first name
+        require(bytes(firstName).length > 0, "First name cannot be empty");
+        require(bytes(firstName).length <= 32, "First name too long");
+        
+        // Return true if name is NOT taken (available)
+        return !nameTaken[firstName];
+    }
+    
+    /**
+     * @dev Check if a full name is available (extracts first name and checks)
+     * @param _fullName Full name to check (will extract first name)
+     */
+    function isFullNameAvailable(string memory _fullName) external view returns (bool) {
+        string memory firstName = ensContract.extractFirstName(_fullName);
+        require(bytes(firstName).length > 0, "First name cannot be empty");
+        require(bytes(firstName).length <= 32, "First name too long");
+        
+        // Return true if name is NOT taken (available)
+        return !nameTaken[firstName];
+    }
+    
+    /**
+     * @dev Debug function: Get the first name that would be extracted from full name
+     * @param _fullName Full name to extract from
+     */
+    function getExtractedFirstName(string memory _fullName) external view returns (string memory) {
+        return ensContract.extractFirstName(_fullName);
+    }
+    
+    /**
+     * @dev Debug function: Check if a specific first name is marked as taken
+     * @param _firstName First name to check in mapping
+     */
+    function isNameTaken(string memory _firstName) external view returns (bool) {
+        return nameTaken[_firstName];
     }
 }

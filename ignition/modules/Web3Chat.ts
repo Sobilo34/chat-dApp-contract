@@ -10,10 +10,13 @@ const Web3ChatModule = buildModule("Web3ChatModule", (m) => {
   // 2. Deploy Registry contract with ENS contract address
   const web3ChatRegistry = m.contract("Web3ChatRegistry", [web3ChatENS]);
   
-  // 3. Deploy Chat contract with Registry contract address
+  // 3. Set the registry contract address in ENS contract for access control
+  m.call(web3ChatENS, "setRegistryContract", [web3ChatRegistry]);
+  
+  // 4. Deploy Chat contract with Registry contract address
   const web3ChatMessaging = m.contract("Web3ChatMessaging", [web3ChatRegistry]);
   
-  // 4. Deploy Multicall helper contract
+  // 5. Deploy Multicall helper contract
   const web3ChatMulticall = m.contract("Web3ChatMulticall", []);
 
   return { 

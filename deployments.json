@@ -3,9 +3,18 @@
   "chainId": 4202,
   "contracts": {
     "Web3ChatENS": "0xF7250C12cEEf0173E0005eDeE20C9B35c1a4b064",
-    "Web3ChatRegistry": "0xaCbC3778082DA33b382FE5a0581dEBCD4C552385",
+    "Web3ChatRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
     "Web3ChatMessaging": "0x354Fd5fDBDA16b79ef88642C53abfaAe7838f034",
     "Web3ChatMulticall": "0xb899A968e785dD721dbc40e71e2FAEd7B2d84711"
   },
-  "deployedAt": "2025-09-17T00:00:00.000Z"
+  "deployedAt": "2025-09-17T00:00:00.000Z",
+  "lastUpdate": "2025-09-17T07:18:24.460Z",
+  "redeployedContracts": [
+    {
+      "contract": "Web3ChatRegistry",
+      "oldAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "newAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "timestamp": "2025-09-17T07:18:24.461Z"
+    }
+  ]
 }

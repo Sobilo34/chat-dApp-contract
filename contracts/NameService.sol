@@ -14,6 +14,9 @@ contract Web3ChatENS is Ownable, ReentrancyGuard {
         // contract constructor
     }
 
+    // Registry contract address (authorized caller)
+    address public registryContract;
+
     // Domain suffix for all chat users
     string public constant DOMAIN_SUFFIX = ".web3chat";
     
@@ -29,6 +32,17 @@ contract Web3ChatENS is Ownable, ReentrancyGuard {
     // Events
     event DomainRegistered(address indexed owner, string domain, bytes32 indexed domainHash);
     event DomainTransferred(address indexed from, address indexed to, string domain);
+    event RegistryContractUpdated(address indexed newRegistry);
+    
+    /**
+     * @dev Set the registry contract address (owner only)
+     * @param _registryContract Address of the registry contract
+     */
+    function setRegistryContract(address _registryContract) external onlyOwner {
+        require(_registryContract != address(0), "Invalid registry address");
+        registryContract = _registryContract;
+        emit RegistryContractUpdated(_registryContract);
+    }
     
     /**
      * @dev Register a new domain for the caller using full name (extracts first name)
@@ -123,5 +137,32 @@ contract Web3ChatENS is Ownable, ReentrancyGuard {
      */
     function extractFirstName(string memory _fullName) external pure returns (string memory) {
         return _extractFirstName(_fullName);
+    }
+    
+    /**
+     * @dev Register domain on behalf of a user (only called by Registry contract)
+     * @param _user The user address to register for
+     * @param _fullName The full name (will extract first name)
+     */
+    function registerDomainFor(address _user, string memory _fullName) external nonReentrant {
+        require(msg.sender == registryContract, "Only registry contract can call this");
+        require(registryContract != address(0), "Registry contract not set");
+        
+        string memory firstName = _extractFirstName(_fullName);
+        require(bytes(firstName).length > 0, "Name cannot be empty");
+        require(bytes(firstName).length <= 32, "Name too long");
+        require(!domainExists[firstName], "Domain already exists");
+        require(bytes(addressToDomain[_user]).length == 0, "Address already has domain");
+        
+        // Create full domain name
+        string memory fullDomain = string(abi.encodePacked(firstName, DOMAIN_SUFFIX));
+        bytes32 domainHash = keccak256(abi.encodePacked(fullDomain));
+        
+        // Register the domain for the user
+        domains[domainHash] = _user;
+        addressToDomain[_user] = fullDomain;
+        domainExists[firstName] = true;
+        
+        emit DomainRegistered(_user, fullDomain, domainHash);
     }
 }
