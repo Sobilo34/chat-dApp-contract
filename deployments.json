@@ -1,11 +1,11 @@
 {
-  "network": "localhost",
-  "chainId": 1337,
+  "network": "lisk-sepolia",
+  "chainId": 4202,
   "contracts": {
-    "Web3ChatENS": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-    "Web3ChatRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-    "Web3ChatMessaging": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-    "Web3ChatMulticall": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+    "Web3ChatENS": "0xF7250C12cEEf0173E0005eDeE20C9B35c1a4b064",
+    "Web3ChatRegistry": "0xaCbC3778082DA33b382FE5a0581dEBCD4C552385",
+    "Web3ChatMessaging": "0x354Fd5fDBDA16b79ef88642C53abfaAe7838f034",
+    "Web3ChatMulticall": "0xb899A968e785dD721dbc40e71e2FAEd7B2d84711"
   },
-  "deployedAt": "2025-09-16T17:01:55.490Z"
+  "deployedAt": "2025-09-17T00:00:00.000Z"
 }

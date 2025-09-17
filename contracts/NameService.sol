@@ -108,6 +108,16 @@ contract Web3ChatENS is Ownable, ReentrancyGuard {
     }
     
     /**
+     * @dev Check if a first name is available for registration
+     * @param _firstName The first name to check
+     */
+    function isFirstNameAvailable(string memory _firstName) external view returns (bool) {
+        require(bytes(_firstName).length > 0, "Name cannot be empty");
+        require(bytes(_firstName).length <= 32, "Name too long");
+        return !domainExists[_firstName];
+    }
+    
+    /**
      * @dev Extract first name from full name (public function)
      * @param _fullName The full name string
      */
